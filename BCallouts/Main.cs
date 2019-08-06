@@ -1,6 +1,7 @@
-﻿using System;
+using System;
 using LSPD_First_Response.Mod.API;
-using Rage;
+using Rage;
+
 
 namespace BCallouts
 {
