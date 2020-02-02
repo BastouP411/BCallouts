@@ -1,6 +1,7 @@
 ﻿using System;
 using LSPD_First_Response.Mod.API;
-using Rage;
+using Rage;
+
 
 namespace BCallouts
 {
@@ -28,6 +29,7 @@ namespace BCallouts
         private void RegisterCallouts()
         {
             Functions.RegisterCallout(typeof(Callouts.CriminalEscort));
+            Functions.RegisterCallout(typeof(Callouts.AlienAttack));
         }
     }
 }

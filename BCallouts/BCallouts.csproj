@@ -2,14 +2,25 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <ApplicationIcon />
+    <OutputType>Library</OutputType>
+    <StartupObject />
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.CSharp" Version="4.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Reference Include="LSPD First Response">
-      <HintPath>..\..\..\libs\LSPD First Response.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\Program Files\Rockstar Games\Grand Theft Auto V\Plugins\LSPD First Response.dll</HintPath>
     </Reference>
     <Reference Include="RagePluginHook">
-      <HintPath>..\..\..\libs\RagePluginHookSDK.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\Program Files\Rockstar Games\Grand Theft Auto V\SDK\RagePluginHookSDK.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Forms">
+      <HintPath>..\..\..\..\..\..\Windows\WinSxS\amd64_netfx-system.windows.forms_b03f5f7f11d50a3a_10.0.17763.205_none_87a7220e19b8c677\System.Windows.Forms.dll</HintPath>
     </Reference>
   </ItemGroup>
 
