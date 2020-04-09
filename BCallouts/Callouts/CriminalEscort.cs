@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Drawing;
-using System.Windows.Forms;
+﻿using System.Drawing;
 using Rage;
 using LSPD_First_Response.Mod.API;
 using LSPD_First_Response.Mod.Callouts;
 using Rage.Native;
 using LSPD_First_Response.Engine.Scripting.Entities;
-
+using BCallouts.Common;
 
 namespace BCallouts.Callouts
 {

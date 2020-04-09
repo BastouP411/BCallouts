@@ -1,4 +1,5 @@
 ﻿using Rage;
+using BCallouts.Common;
 using LSPD_First_Response.Mod.API;
 using LSPD_First_Response.Mod.Callouts;
 using LSPD_First_Response.Engine.Scripting.Entities;
@@ -7,7 +8,7 @@ using System;
 
 namespace BCallouts.Callouts
 {
-    [CalloutInfo("Alien Attack", CalloutProbability.Low)]
+    [CalloutInfo("Alien Attack", CalloutProbability.VeryLow)]
     class AlienAttack : Callout
     {
         private Vector3 SpawnPoint;
@@ -23,11 +24,9 @@ namespace BCallouts.Callouts
         private Random Rdm;
         private LHandle Pursuit;
 
-        public override bool OnBeforeCalloutDisplayed()
-        {
+        public override bool OnBeforeCalloutDisplayed() {
             int WaitCount = 0;
-            while (!World.GetNextPositionOnStreet(Game.LocalPlayer.Character.Position.Around(2000f, 5000f)).GetSafeCoordForPed(false, out SpawnPoint))
-            {
+            while (!World.GetNextPositionOnStreet(Game.LocalPlayer.Character.Position.Around(2000f, 5000f)).GetSafeCoordForPed(false, out SpawnPoint)) {
                 GameFiber.Yield();
                 WaitCount++;
                 if (WaitCount > 50) { return false; }
@@ -41,21 +40,18 @@ namespace BCallouts.Callouts
             return base.OnBeforeCalloutDisplayed();
         }
 
-        public override bool OnCalloutAccepted()
-        {
+        public override bool OnCalloutAccepted() {
             SpawnSequenceInitiated = false;
             
             Game.DisplayNotification("Citizens say they saw an ~r~alien~s~ at this ~y~position~w~.~n~This may be the first human-alien contact. Proceed with caution.");
-            ZoneBlip = new Blip(SpawnPoint, 50f)
-            {
+            ZoneBlip = new Blip(SpawnPoint, 50f) {
                 IsFriendly = false,
                 IsRouteEnabled = true,
                 Alpha = 0.5f,
                 Color = Color.Gold
             };
 
-            if(IsFake)
-            {
+            if(IsFake) {
                 Alien = new Ped("s_m_m_movalien_01", SpawnPoint, 0f);
                 Alien.SetVariation(0, 0, 0);
                 Alien.SetVariation(3, 0, 0);
@@ -70,37 +66,30 @@ namespace BCallouts.Callouts
                 Alien.RelationshipGroup = RelationshipGroup.Gang1;
 
                 AlienSpawned = true;
-            }
-            else
-            {
+            } else {
                 AlienSpawned = false;
             }
 
             return base.OnCalloutAccepted();
         }
 
-        public override void Process()
-        {
-            if (AlienSpawned && (!Alien.Exists() || Alien.IsDead || Functions.IsPedArrested(Alien) || (TargetFlees && !Functions.IsPursuitStillRunning(Pursuit))))
-            {
+        public override void Process() {
+            if (AlienSpawned && (!Alien.Exists() || Alien.IsDead || Functions.IsPedArrested(Alien) || (TargetFlees && !Functions.IsPursuitStillRunning(Pursuit)))) {
                 End();
             }
 
-            if (!IsFake && !SpawnSequenceInitiated && Game.LocalPlayer.Character.Position.DistanceTo(SpawnPoint) < 25f)
-            {
+            if (!IsFake && !SpawnSequenceInitiated && Game.LocalPlayer.Character.Position.DistanceTo(SpawnPoint) < 25f) {
                 AppearanceSequence();
             }
 
-            if (IsFake && !SpawnSequenceInitiated && Game.LocalPlayer.Character.Position.DistanceTo(SpawnPoint) < 50f)
-            {
+            if (IsFake && !SpawnSequenceInitiated && Game.LocalPlayer.Character.Position.DistanceTo(SpawnPoint) < 50f) {
                 PreparationSequence();
             }
 
             base.Process();
         }
 
-        public override void End()
-        {
+        public override void End() {
             base.End();
 
             if (ZoneBlip.Exists()) { ZoneBlip.Delete(); }
@@ -109,8 +98,7 @@ namespace BCallouts.Callouts
             if (Alien.Exists()) { Alien.Dismiss(); }
         }
 
-        private void PreparationSequence()
-        {
+        private void PreparationSequence() {
             if (ZoneBlip.Exists()) { ZoneBlip.Delete(); }
             SpawnSequenceInitiated = true;
             Game.SetRelationshipBetweenRelationshipGroups(RelationshipGroup.Cop, RelationshipGroup.Gang1, Relationship.Hate);
@@ -119,16 +107,13 @@ namespace BCallouts.Callouts
             Game.SetRelationshipBetweenRelationshipGroups(RelationshipGroup.Player, RelationshipGroup.Gang1, Relationship.Hate);
 
             TargetFlees = Rdm.NextDouble() < 0.5f;
-            if(!TargetFlees)
-            {
+            if(!TargetFlees) {
                 AlienBlip = Alien.AttachBlip();
                 AlienBlip.IsFriendly = false;
                 AlienBlip.Name = "Fake Alien";
                 AlienBlip.Scale = 0.75f;
                 Alien.Tasks.FightAgainst(Game.LocalPlayer.Character);
-            }
-            else
-            {
+            } else {
                 if (Functions.GetActivePursuit() != null) { Functions.ForceEndPursuit(Functions.GetActivePursuit()); }
                 Pursuit = Functions.CreatePursuit();
                 Functions.AddPedToPursuit(Pursuit, Alien);
