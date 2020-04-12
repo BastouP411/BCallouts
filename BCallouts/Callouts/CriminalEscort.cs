@@ -97,7 +97,7 @@ namespace BCallouts.Callouts
             Functions.SetPersonaForPed(Criminal, CrimPersona);
 
             CVDriver.Tasks.CruiseWithVehicle(15f, VehicleDrivingFlags.Normal);
-            NativeFunction.CallByName<uint>("TASK_VEHICLE_ESCORT", FVDriver, FollowVeh, CriminalVeh, -1, 50f, 1074528293, 5, 0, 25f); // Native: TASK_VEHICLE_ESCORT
+            FVDriver.Tasks.VehicleEscort(FollowVeh, CriminalVeh, EscortMode.BEHIND, 50f, VehicleDrivingFlags.Emergency, 5f, 25f);
 
             Blipper();
 

@@ -107,35 +107,35 @@ namespace BCallouts
 
         public static void TravelToCarrier() {
             GameFiber.StartNew(delegate {
-                Natives.DoScreenFadeOut(3000);
-                while (!Natives.IsScreenFadedOut()) { GameFiber.Yield(); }
+                Game.FadeScreenOut(3000);
+                while (!Game.IsScreenFadedOut) { GameFiber.Yield(); }
                 Game.LocalPlayer.Character.Position = CARRIER_BLIP_POS;
                 Game.LocalPlayer.Character.Heading = CARRIER_BLIP_HEADING;
                 GameFiber.Sleep(1000);
-                Natives.DoScreenFadeIn(3000);
+                Game.FadeScreenIn(3000);
             });
         }
 
         public static void TravelToGround() {
             GameFiber.StartNew(delegate {
-                Natives.DoScreenFadeOut(3000);
-                while (!Natives.IsScreenFadedOut()) { GameFiber.Yield(); }
+                Game.FadeScreenOut(3000);
+                while (!Game.IsScreenFadedOut) { GameFiber.Yield(); }
                 Game.LocalPlayer.Character.Position = AIRPORT_BLIP_POS;
                 Game.LocalPlayer.Character.Heading = AIRPORT_BLIP_HEADING;
                 GameFiber.Sleep(1000);
-                Natives.DoScreenFadeIn(3000);
+                Game.FadeScreenIn(3000);
             });
         }
 
         public static void TakePlane(Model Model) {
             GameFiber.StartNew(delegate {
-                Natives.DoScreenFadeOut(3000);
-                while(!Natives.IsScreenFadedOut()) { GameFiber.Yield(); }
+                Game.FadeScreenOut(3000);
+                while(!Game.IsScreenFadedOut) { GameFiber.Yield(); }
                 Vehicle Plane = new Vehicle(Model, CARRIER_PLANE_SPAWN_POS, CARRIER_PLANE_SPAWN_HEADING);
                 Plane.SetLockedForPlayer(Game.LocalPlayer, false);
                 Game.LocalPlayer.Character.WarpIntoVehicle(Plane, -1);
                 GameFiber.Sleep(1000);
-                Natives.DoScreenFadeIn(3000);
+                Game.FadeScreenIn(3000);
             });
         }
     }

@@ -14,6 +14,7 @@ namespace BCallouts
             ConfigManager.UpdateConfig();
             LoadIPLs();
             Functions.OnOnDutyStateChanged += OnOnDutyStateChangedHandler;
+            DataCrackManager.Initialize();
             Game.LogTrivial("[BCallouts] BCallouts " + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString() + " has been initialised.");
 
         }
@@ -21,6 +22,7 @@ namespace BCallouts
         public override void Finally()
         {
             RemoveIPLs();
+            DataCrackManager.Finally();
             AircraftManager.Finally();
             Game.LogTrivial("BCallouts has been cleaned up.");
         }
